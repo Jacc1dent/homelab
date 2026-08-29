@@ -298,11 +298,11 @@
                         </div>
 
                         <p class="stat-value">
-                            1
+                            2
                         </p>
 
                         <p class="stat-description">
-                            1 currently running
+                            2 currently running
                         </p>
 
                     </article>
@@ -324,7 +324,7 @@
                         </div>
 
                         <p class="stat-value">
-                            1
+                            2
                         </p>
 
                         <p class="stat-description">
@@ -652,20 +652,26 @@
 
 
 
-                    <article class="service-card planned-service">
+                    <article class="service-card">
 
                         <div class="service-header">
 
                             <div class="service-icon">
-                                PK
+                                PT
                             </div>
 
-                            <span class="status-dot planned"></span>
+                            <span class="status-dot online"></span>
 
                         </div>
 
                         <h4>
-                            Portainer
+                            <a
+                                href="https://localhost:9443"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Portainer
+                            </a>
                         </h4>
 
                         <p>
@@ -675,11 +681,11 @@
                         <div class="service-footer">
 
                             <span>
-                                ---
+                                :9443
                             </span>
 
-                            <span class="planned-text">
-                                PLANNED
+                            <span class="online-text">
+                                RUNNING
                             </span>
 
                         </div>
@@ -1007,11 +1013,50 @@
                                 00:00:04
                             </span>
 
+                            <span class="log-ok">
+                                [OK]
+                            </span>
+
+                            homelab-portainer container started
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:05
+                            </span>
+
+                            <span class="log-ok">
+                                [OK]
+                            </span>
+
+                            Portainer listening on port 9443
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:06
+                            </span>
+
                             <span class="log-info">
                                 [INFO]
                             </span>
 
                             Dashboard available at localhost:8080
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:07
+                            </span>
+
+                            <span class="log-info">
+                                [INFO]
+                            </span>
+
+                            Portainer available at https://localhost:9443
                         </p>
 
 
