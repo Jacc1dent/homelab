@@ -34,9 +34,32 @@ services:
 
     restart: unless-stopped
 
+  prometheus:
+    image: prom/prometheus:v3.13.2
+    container_name: homelab-prometheus
+
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:13.1.2
+    container_name: homelab-grafana
+
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+    restart: unless-stopped
+
 
 volumes:
 
   portainer_data:
 
   uptime_kuma_data:
+
+  prometheus_data:
+
+  grafana_data:
