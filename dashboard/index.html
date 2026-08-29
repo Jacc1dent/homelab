@@ -9,137 +9,1053 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Homelab Dashboard</title>
+    <meta
+        name="description"
+        content="Personal homelab infrastructure dashboard"
+    >
+
+    <title>Homelab // Dashboard</title>
 
     <link
         rel="stylesheet"
         href="css/style.css"
     >
+
+    <script
+        src="/js/app.js"
+        defer
+    ></script>
 </head>
+
 
 <body>
 
-    <main class="dashboard">
+    <div class="app-layout">
 
-        <header>
-            <div>
-                <p class="terminal-text">> system.initialize</p>
+        <!-- ========================================
+             SIDEBAR
+        ========================================= -->
 
-                <h1>HOMELAB</h1>
+        <aside class="sidebar">
 
-                <p class="subtitle">
-                    Personal Infrastructure Dashboard
-                </p>
-            </div>
+            <div class="sidebar-header">
 
-            <div class="status">
-                <span class="status-dot"></span>
-                SYSTEM ONLINE
-            </div>
-        </header>
+                <div class="brand-icon">
+                    >_
+                </div>
 
-
-        <section class="cards">
-
-            <article class="card">
-
-                <p class="card-label">
-                    HOST
-                </p>
-
-                <h2>Gaming PC</h2>
-
-                <p class="online">
-                    ● ONLINE
-                </p>
-
-            </article>
-
-
-            <article class="card">
-
-                <p class="card-label">
-                    CONTAINER
-                </p>
-
-                <h2>Nginx</h2>
-
-                <p class="online">
-                    ● RUNNING
-                </p>
-
-            </article>
-
-
-            <article class="card">
-
-                <p class="card-label">
-                    PROJECT
-                </p>
-
-                <h2>Homelab Dashboard</h2>
-
-                <p class="development">
-                    ◉ DEVELOPMENT
-                </p>
-
-            </article>
-
-
-            <article class="card">
-
-                <p class="card-label">
-                    PROJECT
-                </p>
-
-                <h2>CS2 Lineups</h2>
-
-                <p class="development">
-                    ◉ DEVELOPMENT
-                </p>
-
-            </article>
-
-        </section>
-
-
-        <section class="terminal">
-
-            <div class="terminal-header">
-                SYSTEM LOG
-            </div>
-
-            <div class="terminal-body">
-
-                <p>
-                    <span class="prompt">homelab@dashboard:~$</span>
-                    initialize
-                </p>
-
-                <p>
-                    [OK] Docker container running
-                </p>
-
-                <p>
-                    [OK] Nginx web server running
-                </p>
-
-                <p>
-                    [OK] Dashboard loaded
-                </p>
-
-                <p class="cursor-line">
-                    <span class="prompt">homelab@dashboard:~$</span>
-                    <span class="cursor"></span>
-                </p>
+                <div class="brand-text">
+                    <h1>HOMELAB</h1>
+                    <span>CONTROL NODE</span>
+                </div>
 
             </div>
 
-        </section>
 
-    </main>
+            <nav class="sidebar-nav">
 
-    <script src="js/app.js"></script>
+                <p class="nav-section-label">
+                    SYSTEM
+                </p>
+
+
+                <a
+                    href="#overview"
+                    class="nav-link active"
+                >
+                    <span class="nav-icon">◉</span>
+                    <span>Overview</span>
+                </a>
+
+
+                <a
+                    href="#machines"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">▣</span>
+                    <span>Machines</span>
+                </a>
+
+
+                <a
+                    href="#services"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">◫</span>
+                    <span>Services</span>
+                </a>
+
+
+                <a
+                    href="#docker"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">◆</span>
+                    <span>Docker</span>
+                </a>
+
+
+                <a
+                    href="#network"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">≋</span>
+                    <span>Network</span>
+                </a>
+
+
+                <a
+                    href="#monitoring"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">◇</span>
+                    <span>Monitoring</span>
+                </a>
+
+
+
+                <p class="nav-section-label">
+                    LAB
+                </p>
+
+
+                <a
+                    href="#projects"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">&lt;/&gt;</span>
+                    <span>Projects</span>
+                </a>
+
+
+                <a
+                    href="#cs2"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">⌖</span>
+                    <span>CS2 Lineups</span>
+                </a>
+
+
+                <a
+                    href="#docs"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">▤</span>
+                    <span>Documentation</span>
+                </a>
+
+
+                <a
+                    href="#blog"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">✎</span>
+                    <span>Lab Journal</span>
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+
+                <div class="sidebar-status">
+
+                    <span class="status-dot online"></span>
+
+                    <div>
+                        <strong>LOCAL NODE</strong>
+                        <span>CONNECTED</span>
+                    </div>
+
+                </div>
+
+                <p class="version">
+                    v0.2.0-dev
+                </p>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- ========================================
+             MAIN APPLICATION
+        ========================================= -->
+
+        <main class="main-content">
+
+
+            <!-- ====================================
+                 TOP BAR
+            ===================================== -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <p class="terminal-command">
+                        > system.overview
+                    </p>
+
+                    <h2>
+                        Infrastructure Overview
+                    </h2>
+
+                    <p class="page-description">
+                        Local homelab monitoring and management
+                    </p>
+
+                </div>
+
+
+                <div class="system-state">
+
+                    <span class="status-dot online"></span>
+
+                    <div>
+                        <span class="system-state-label">
+                            SYSTEM STATUS
+                        </span>
+
+                        <strong>
+                            ONLINE
+                        </strong>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- ====================================
+                 OVERVIEW
+            ===================================== -->
+
+            <section
+                class="dashboard-section"
+                id="overview"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="section-command">
+                            > infrastructure.summary
+                        </p>
+
+                        <h3>
+                            Overview
+                        </h3>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-grid">
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-card-header">
+
+                            <span>
+                                HOSTS
+                            </span>
+
+                            <span class="stat-icon">
+                                ▣
+                            </span>
+
+                        </div>
+
+                        <p class="stat-value">
+                            6
+                        </p>
+
+                        <p class="stat-description">
+                            1 online / 1 planned
+                        </p>
+
+                    </article>
+
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-card-header">
+
+                            <span>
+                                SERVICES
+                            </span>
+
+                            <span class="stat-icon">
+                                ◫
+                            </span>
+
+                        </div>
+
+                        <p class="stat-value">
+                            1
+                        </p>
+
+                        <p class="stat-description">
+                            1 currently running
+                        </p>
+
+                    </article>
+
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-card-header">
+
+                            <span>
+                                CONTAINERS
+                            </span>
+
+                            <span class="stat-icon">
+                                ◆
+                            </span>
+
+                        </div>
+
+                        <p class="stat-value">
+                            1
+                        </p>
+
+                        <p class="stat-description">
+                            Docker containers online
+                        </p>
+
+                    </article>
+
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-card-header">
+
+                            <span>
+                                PROJECTS
+                            </span>
+
+                            <span class="stat-icon">
+                                &lt;/&gt;
+                            </span>
+
+                        </div>
+
+                        <p class="stat-value">
+                            2
+                        </p>
+
+                        <p class="stat-description">
+                            Active lab projects
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ====================================
+                 MACHINES
+            ===================================== -->
+
+            <section
+                class="dashboard-section"
+                id="machines"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="section-command">
+                            > hosts.list
+                        </p>
+
+                        <h3>
+                            Machines
+                        </h3>
+
+                    </div>
+
+                    <button class="text-button">
+                        VIEW ALL
+                    </button>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="machine-table-header">
+
+                        <span>HOSTNAME</span>
+                        <span>ROLE</span>
+                        <span>PLATFORM</span>
+                        <span>STATUS</span>
+
+                    </div>
+
+
+
+                    <div class="machine-row">
+
+                        <div class="machine-name">
+
+                            <span class="status-dot online"></span>
+
+                            <div>
+                                <strong>gaming-pc</strong>
+                                <span>Primary workstation</span>
+                            </div>
+
+                        </div>
+
+                        <span>
+                            Development
+                        </span>
+
+                        <span>
+                            Windows / WSL2
+                        </span>
+
+                        <span class="status-text online-text">
+                            ONLINE
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="machine-row">
+
+                        <div class="machine-name">
+
+                            <span class="status-dot offline"></span>
+
+                            <div>
+                                <strong>main-server</strong>
+                                <span>Future infrastructure host</span>
+                            </div>
+
+                        </div>
+
+                        <span>
+                            Server
+                        </span>
+
+                        <span>
+                            TBD
+                        </span>
+
+                        <span class="status-text warning-text">
+                            NO STORAGE
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="machine-row">
+
+                        <div class="machine-name">
+
+                            <span class="status-dot offline"></span>
+
+                            <div>
+                                <strong>legacy-laptop</strong>
+                                <span>Reimage candidate</span>
+                            </div>
+
+                        </div>
+
+                        <span>
+                            Utility Node
+                        </span>
+
+                        <span>
+                            Windows
+                        </span>
+
+                        <span class="status-text offline-text">
+                            OFFLINE
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="machine-row">
+
+                        <div class="machine-name">
+
+                            <span class="status-dot offline"></span>
+
+                            <div>
+                                <strong>raspberry-pi</strong>
+                                <span>Model B</span>
+                            </div>
+
+                        </div>
+
+                        <span>
+                            Edge / Projects
+                        </span>
+
+                        <span>
+                            Raspberry Pi
+                        </span>
+
+                        <span class="status-text offline-text">
+                            OFFLINE
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="machine-row">
+
+                        <div class="machine-name">
+
+                            <span class="status-dot offline"></span>
+
+                            <div>
+                                <strong>macbook-pro</strong>
+                                <span>Remote management client</span>
+                            </div>
+
+                        </div>
+
+                        <span>
+                            Admin Client
+                        </span>
+
+                        <span>
+                            macOS
+                        </span>
+
+                        <span class="status-text offline-text">
+                            OFFLINE
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="machine-row">
+
+                        <div class="machine-name">
+
+                            <span class="status-dot planned"></span>
+
+                            <div>
+                                <strong>mini-pc</strong>
+                                <span>Future 24/7 node</span>
+                            </div>
+
+                        </div>
+
+                        <span>
+                            Container Host
+                        </span>
+
+                        <span>
+                            Linux
+                        </span>
+
+                        <span class="status-text planned-text">
+                            PLANNED
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ====================================
+                 SERVICES
+            ===================================== -->
+
+            <section
+                class="dashboard-section"
+                id="services"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="section-command">
+                            > services.status
+                        </p>
+
+                        <h3>
+                            Services
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="service-grid">
+
+
+                    <article class="service-card">
+
+                        <div class="service-header">
+
+                            <div class="service-icon">
+                                NX
+                            </div>
+
+                            <span class="status-dot online"></span>
+
+                        </div>
+
+                        <h4>
+                            Nginx
+                        </h4>
+
+                        <p>
+                            Homelab web server
+                        </p>
+
+                        <div class="service-footer">
+
+                            <span>
+                                :8080
+                            </span>
+
+                            <span class="online-text">
+                                RUNNING
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <article class="service-card planned-service">
+
+                        <div class="service-header">
+
+                            <div class="service-icon">
+                                PK
+                            </div>
+
+                            <span class="status-dot planned"></span>
+
+                        </div>
+
+                        <h4>
+                            Portainer
+                        </h4>
+
+                        <p>
+                            Docker management
+                        </p>
+
+                        <div class="service-footer">
+
+                            <span>
+                                ---
+                            </span>
+
+                            <span class="planned-text">
+                                PLANNED
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <article class="service-card planned-service">
+
+                        <div class="service-header">
+
+                            <div class="service-icon">
+                                UK
+                            </div>
+
+                            <span class="status-dot planned"></span>
+
+                        </div>
+
+                        <h4>
+                            Uptime Kuma
+                        </h4>
+
+                        <p>
+                            Service monitoring
+                        </p>
+
+                        <div class="service-footer">
+
+                            <span>
+                                ---
+                            </span>
+
+                            <span class="planned-text">
+                                PLANNED
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <article class="service-card planned-service">
+
+                        <div class="service-header">
+
+                            <div class="service-icon">
+                                GF
+                            </div>
+
+                            <span class="status-dot planned"></span>
+
+                        </div>
+
+                        <h4>
+                            Grafana
+                        </h4>
+
+                        <p>
+                            Metrics visualization
+                        </p>
+
+                        <div class="service-footer">
+
+                            <span>
+                                ---
+                            </span>
+
+                            <span class="planned-text">
+                                PLANNED
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ====================================
+                 PROJECTS
+            ===================================== -->
+
+            <section
+                class="dashboard-section"
+                id="projects"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="section-command">
+                            > projects.active
+                        </p>
+
+                        <h3>
+                            Projects
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-grid">
+
+
+                    <article class="project-card">
+
+                        <div class="project-card-top">
+
+                            <div>
+
+                                <span class="project-number">
+                                    PROJECT_001
+                                </span>
+
+                                <h4>
+                                    Homelab Dashboard
+                                </h4>
+
+                            </div>
+
+                            <span class="status-badge development">
+                                DEVELOPMENT
+                            </span>
+
+                        </div>
+
+
+                        <p class="project-description">
+
+                            Central dashboard for monitoring,
+                            managing and documenting the homelab.
+
+                        </p>
+
+
+                        <div class="technology-list">
+
+                            <span>Docker</span>
+                            <span>Nginx</span>
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+
+                        </div>
+
+
+                        <div class="project-footer">
+
+                            <span>
+                                v0.2.0-dev
+                            </span>
+
+                            <a href="#">
+                                OPEN PROJECT →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <article
+                        class="project-card"
+                        id="cs2"
+                    >
+
+                        <div class="project-card-top">
+
+                            <div>
+
+                                <span class="project-number">
+                                    PROJECT_002
+                                </span>
+
+                                <h4>
+                                    CS2 Lineup Display
+                                </h4>
+
+                            </div>
+
+                            <span class="status-badge development">
+                                DEVELOPMENT
+                            </span>
+
+                        </div>
+
+
+                        <p class="project-description">
+
+                            Raspberry Pi powered utility lineup
+                            display for Counter-Strike 2.
+
+                        </p>
+
+
+                        <div class="technology-list">
+
+                            <span>Python</span>
+                            <span>Raspberry Pi</span>
+                            <span>Web</span>
+                            <span>CS2</span>
+
+                        </div>
+
+
+                        <div class="project-footer">
+
+                            <span>
+                                IN DEVELOPMENT
+                            </span>
+
+                            <a href="#">
+                                OPEN PROJECT →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ====================================
+                 SYSTEM LOG
+            ===================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="section-command">
+                            > logs.tail
+                        </p>
+
+                        <h3>
+                            System Activity
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="terminal-panel">
+
+
+                    <div class="terminal-titlebar">
+
+                        <div class="terminal-controls">
+
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                        </div>
+
+                        <span>
+                            homelab@dashboard
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="terminal-output">
+
+                        <p>
+                            <span class="log-time">
+                                00:00:01
+                            </span>
+
+                            <span class="log-ok">
+                                [OK]
+                            </span>
+
+                            Docker engine detected
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:02
+                            </span>
+
+                            <span class="log-ok">
+                                [OK]
+                            </span>
+
+                            homelab-dashboard container started
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:03
+                            </span>
+
+                            <span class="log-ok">
+                                [OK]
+                            </span>
+
+                            Nginx listening on port 80
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:04
+                            </span>
+
+                            <span class="log-info">
+                                [INFO]
+                            </span>
+
+                            Dashboard available at localhost:8080
+                        </p>
+
+
+                        <p class="terminal-input">
+
+                            <span class="terminal-prompt">
+                                homelab@dashboard:~$
+                            </span>
+
+                            <span class="terminal-cursor"></span>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ====================================
+                 FOOTER
+            ===================================== -->
+
+            <footer class="dashboard-footer">
+
+                <span>
+                    HOMELAB CONTROL NODE
+                </span>
+
+                <span>
+                    LOCAL ACCESS ONLY // v0.2.0-dev
+                </span>
+
+            </footer>
+
+
+        </main>
+
+    </div>
+
+
+    
 
 </body>
 
