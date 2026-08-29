@@ -298,11 +298,11 @@
                         </div>
 
                         <p class="stat-value">
-                            4
+                            6
                         </p>
 
                         <p class="stat-description">
-                            4 currently running
+                            6 currently running
                         </p>
 
                     </article>
@@ -324,7 +324,7 @@
                         </div>
 
                         <p class="stat-value">
-                            3
+                            5
                         </p>
 
                         <p class="stat-description">
@@ -803,36 +803,54 @@
 
                     </article>
 
-                    <article class="service-card planned-service">
+                    <article class="service-card">
 
                         <div class="service-header">
-
-                            <div class="service-icon">
-                                GF
-                            </div>
-
-                            <span class="status-dot planned"></span>
-
+                            <div class="service-icon">GF</div>
+                            <span class="status-dot online"></span>
                         </div>
 
                         <h4>
-                            Grafana
+                            <a
+                                href="http://grafana.home.arpa"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Grafana
+                            </a>
                         </h4>
 
-                        <p>
-                            Metrics visualization
-                        </p>
+                        <p>Metrics visualization and observability</p>
 
                         <div class="service-footer">
+                            <span>:3000 INTERNAL</span>
+                            <span class="online-text">RUNNING</span>
+                        </div>
 
-                            <span>
-                                ---
-                            </span>
+                    </article>
 
-                            <span class="planned-text">
-                                PLANNED
-                            </span>
+                    <article class="service-card">
 
+                        <div class="service-header">
+                            <div class="service-icon">PM</div>
+                            <span class="status-dot online"></span>
+                        </div>
+
+                        <h4>
+                            <a
+                                href="http://prometheus.home.arpa"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Prometheus
+                            </a>
+                        </h4>
+
+                        <p>Metrics collection and time-series database</p>
+
+                        <div class="service-footer">
+                            <span>:9090 INTERNAL</span>
+                            <span class="online-text">RUNNING</span>
                         </div>
 
                     </article>
@@ -1043,195 +1061,105 @@
                     <div class="terminal-output">
 
                         <p>
-                            <span class="log-time">
-                                00:00:01
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            Docker engine detected
-                        </p>
-
-
-                        <p>
-                            <span class="log-time">
-                                00:00:02
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            homelab-dashboard container started
-                        </p>
-
-
-                        <p>
-                            <span class="log-time">
-                                00:00:03
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            Nginx listening on port 80
-                        </p>
-
-
-                        <p>
-                            <span class="log-time">
-                                00:00:04
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            homelab-portainer container started
-                        </p>
-
-
-                        <p>
-                            <span class="log-time">
-                                00:00:05
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            Portainer listening on port 9443
-                        </p>
-
-                            <p>
-                                <span class="log-time">
-                                    00:00:06
-                                </span>
-
-                                <span class="log-ok">
-                                    [OK]
-                                </span>
-
-                                homelab-uptime-kuma container started
-                            </p>
-
-
-                            <p>
-                                <span class="log-time">
-                                    00:00:07
-                                </span>
-
-                                <span class="log-ok">
-                                    [OK]
-                                </span>
-
-                                Uptime Kuma listening on port 3001
-                            </p>
-
-
-                        <p>
-                            <span class="log-time">
-                                00:00:08
-                            </span>
-
-                            <span class="log-info">
-                                [INFO]
-                            </span>
-
-                            Reverse proxy initialized
-                        </p>
-
-
-                        <p>
-                            <span class="log-time">
-                                00:00:09
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            dashboard.home.arpa route registered
-                        </p>
-
-
-                        <p>
-                            <span class="log-time">
-                                00:00:10
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            portainer.home.arpa route registered
-                        </p>
-
-
-                        <p>
-                            <span class="log-time">
-                                00:00:11
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            kuma.home.arpa route registered
+                            <span class="log-time">00:00:01</span>
+                            <span class="log-info">[INFO]</span>
+                            Homelab control plane initializing...
                         </p>
 
                         <p>
-                            <span class="log-time">
-                                00:00:12
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            homelab-dns node reachable at 192.168.1.62
+                            <span class="log-time">00:00:02</span>
+                            <span class="log-ok">[OK]</span>
+                            Docker engine connected
                         </p>
 
-
                         <p>
-                            <span class="log-time">
-                                00:00:13
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            AdGuard Home DNS listening on port 53
+                            <span class="log-time">00:00:03</span>
+                            <span class="log-ok">[OK]</span>
+                            Nginx reverse proxy online on :80
                         </p>
 
-
                         <p>
-                            <span class="log-time">
-                                00:00:14
-                            </span>
-
-                            <span class="log-ok">
-                                [OK]
-                            </span>
-
-                            home.arpa DNS zone available
+                            <span class="log-time">00:00:04</span>
+                            <span class="log-ok">[OK]</span>
+                            Portainer container management online
                         </p>
 
+                        <p>
+                            <span class="log-time">00:00:05</span>
+                            <span class="log-ok">[OK]</span>
+                            Uptime Kuma monitoring online
+                        </p>
 
                         <p>
-                            <span class="log-time">
-                                00:00:15
-                            </span>
+                            <span class="log-time">00:00:06</span>
+                            <span class="log-ok">[OK]</span>
+                            homelab-dns reachable at 192.168.1.62
+                        </p>
 
-                            <span class="log-info">
-                                [INFO]
-                            </span>
+                        <p>
+                            <span class="log-time">00:00:07</span>
+                            <span class="log-ok">[OK]</span>
+                            AdGuard Home DNS listening on :53
+                        </p>
 
-                            LAN DNS server: 192.168.1.62
+                        <p>
+                            <span class="log-time">00:00:08</span>
+                            <span class="log-info">[INFO]</span>
+                            home.arpa internal DNS namespace available
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:09</span>
+                            <span class="log-ok">[OK]</span>
+                            Prometheus metrics engine online
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:10</span>
+                            <span class="log-ok">[OK]</span>
+                            homelab-dns Node Exporter responding on :9100
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:11</span>
+                            <span class="log-ok">[OK]</span>
+                            gaming-pc Windows Exporter responding on :9182
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:12</span>
+                            <span class="log-ok">[OK]</span>
+                            Prometheus scrape targets healthy: 3/3
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:13</span>
+                            <span class="log-ok">[OK]</span>
+                            Grafana observability dashboard online
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:14</span>
+                            <span class="log-info">[INFO]</span>
+                            5 Docker containers running
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:15</span>
+                            <span class="log-info">[INFO]</span>
+                            6 homelab services available
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:16</span>
+                            <span class="log-ok">[OK]</span>
+                            Observability stack initialized
+                        </p>
+
+                        <p>
+                            <span class="log-time">00:00:17</span>
+                            <span class="log-info">[INFO]</span>
+                            Homelab dashboard v0.7 ready
                         </p>
 
 
