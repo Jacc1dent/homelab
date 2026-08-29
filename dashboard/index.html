@@ -272,11 +272,11 @@
                         </div>
 
                         <p class="stat-value">
-                            6
+                            7
                         </p>
 
                         <p class="stat-description">
-                            1 online / 1 planned
+                            2 infrastructure nodes online / 1 planned
                         </p>
 
                     </article>
@@ -298,11 +298,11 @@
                         </div>
 
                         <p class="stat-value">
-                            3
+                            4
                         </p>
 
                         <p class="stat-description">
-                            3 currently running
+                            4 currently running
                         </p>
 
                     </article>
@@ -428,6 +428,33 @@
 
                         <span>
                             Windows / WSL2
+                        </span>
+
+                        <span class="status-text online-text">
+                            ONLINE
+                        </span>
+
+                    </div>
+
+                    <div class="machine-row">
+
+                        <div class="machine-name">
+
+                            <span class="status-dot online"></span>
+
+                            <div>
+                                <strong>homelab-dns</strong>
+                                <span>Dedicated DNS infrastructure</span>
+                            </div>
+
+                        </div>
+
+                        <span>
+                            DNS Server
+                        </span>
+
+                        <span>
+                            Debian / Hyper-V
                         </span>
 
                         <span class="status-text online-text">
@@ -734,7 +761,47 @@
 
                     </article>
 
+                    <article class="service-card">
 
+                        <div class="service-header">
+
+                            <div class="service-icon">
+                                AG
+                            </div>
+
+                            <span class="status-dot online"></span>
+
+                        </div>
+
+                        <h4>
+
+                            <a
+                                href="http://adguard.home.arpa"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                AdGuard Home
+                            </a>
+
+                        </h4>
+
+                        <p>
+                            LAN DNS and network filtering
+                        </p>
+
+                        <div class="service-footer">
+
+                            <span>
+                                :53 DNS
+                            </span>
+
+                            <span class="online-text">
+                                RUNNING
+                            </span>
+
+                        </div>
+
+                    </article>
 
                     <article class="service-card planned-service">
 
@@ -1114,6 +1181,57 @@
                             </span>
 
                             kuma.home.arpa route registered
+                        </p>
+
+                        <p>
+                            <span class="log-time">
+                                00:00:12
+                            </span>
+
+                            <span class="log-ok">
+                                [OK]
+                            </span>
+
+                            homelab-dns node reachable at 192.168.1.62
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:13
+                            </span>
+
+                            <span class="log-ok">
+                                [OK]
+                            </span>
+
+                            AdGuard Home DNS listening on port 53
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:14
+                            </span>
+
+                            <span class="log-ok">
+                                [OK]
+                            </span>
+
+                            home.arpa DNS zone available
+                        </p>
+
+
+                        <p>
+                            <span class="log-time">
+                                00:00:15
+                            </span>
+
+                            <span class="log-info">
+                                [INFO]
+                            </span>
+
+                            LAN DNS server: 192.168.1.62
                         </p>
 
 
