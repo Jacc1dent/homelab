@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Homelab Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+
+<body>
+
+    <main class="dashboard">
+
+        <header>
+            <div>
+                <p class="terminal-text">> system.initialize</p>
+
+                <h1>HOMELAB</h1>
+
+                <p class="subtitle">
+                    Personal Infrastructure Dashboard
+                </p>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                SYSTEM ONLINE
+            </div>
+        </header>
+
+
+        <section class="cards">
+
+            <article class="card">
+
+                <p class="card-label">
+                    HOST
+                </p>
+
+                <h2>Gaming PC</h2>
+
+                <p class="online">
+                    ● ONLINE
+                </p>
+
+            </article>
+
+
+            <article class="card">
+
+                <p class="card-label">
+                    CONTAINER
+                </p>
+
+                <h2>Nginx</h2>
+
+                <p class="online">
+                    ● RUNNING
+                </p>
+
+            </article>
+
+
+            <article class="card">
+
+                <p class="card-label">
+                    PROJECT
+                </p>
+
+                <h2>Homelab Dashboard</h2>
+
+                <p class="development">
+                    ◉ DEVELOPMENT
+                </p>
+
+            </article>
+
+
+            <article class="card">
+
+                <p class="card-label">
+                    PROJECT
+                </p>
+
+                <h2>CS2 Lineups</h2>
+
+                <p class="development">
+                    ◉ DEVELOPMENT
+                </p>
+
+            </article>
+
+        </section>
+
+
+        <section class="terminal">
+
+            <div class="terminal-header">
+                SYSTEM LOG
+            </div>
+
+            <div class="terminal-body">
+
+                <p>
+                    <span class="prompt">homelab@dashboard:~$</span>
+                    initialize
+                </p>
+
+                <p>
+                    [OK] Docker container running
+                </p>
+
+                <p>
+                    [OK] Nginx web server running
+                </p>
+
+                <p>
+                    [OK] Dashboard loaded
+                </p>
+
+                <p class="cursor-line">
+                    <span class="prompt">homelab@dashboard:~$</span>
+                    <span class="cursor"></span>
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

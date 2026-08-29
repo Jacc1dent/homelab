@@ -1,0 +1,1 @@
+console.log("Homelab dashboard initialized.");
