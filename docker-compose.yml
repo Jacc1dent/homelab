@@ -28,6 +28,21 @@ services:
     restart: unless-stopped
 
 
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: homelab-uptime-kuma
+
+    ports:
+      - "3001:3001"
+
+    volumes:
+      - uptime_kuma_data:/app/data
+
+    restart: unless-stopped
+
+
 volumes:
 
   portainer_data:
+
+  uptime_kuma_data:

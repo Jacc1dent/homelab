@@ -298,11 +298,11 @@
                         </div>
 
                         <p class="stat-value">
-                            2
+                            3
                         </p>
 
                         <p class="stat-description">
-                            2 currently running
+                            3 currently running
                         </p>
 
                     </article>
@@ -324,7 +324,7 @@
                         </div>
 
                         <p class="stat-value">
-                            2
+                            3
                         </p>
 
                         <p class="stat-description">
@@ -694,7 +694,7 @@
 
 
 
-                    <article class="service-card planned-service">
+                    <article class="service-card">
 
                         <div class="service-header">
 
@@ -702,12 +702,18 @@
                                 UK
                             </div>
 
-                            <span class="status-dot planned"></span>
+                            <span class="status-dot online"></span>
 
                         </div>
 
                         <h4>
+                            <a
+                                href="http://localhost:3001"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                             Uptime Kuma
+                            </a>
                         </h4>
 
                         <p>
@@ -717,11 +723,11 @@
                         <div class="service-footer">
 
                             <span>
-                                ---
+                                :3001
                             </span>
 
-                            <span class="planned-text">
-                                PLANNED
+                            <span class="online-text">
+                                RUNNING
                             </span>
 
                         </div>
@@ -1033,10 +1039,35 @@
                             Portainer listening on port 9443
                         </p>
 
+                            <p>
+                                <span class="log-time">
+                                    00:00:06
+                                </span>
+
+                                <span class="log-ok">
+                                    [OK]
+                                </span>
+
+                                homelab-uptime-kuma container started
+                            </p>
+
+
+                            <p>
+                                <span class="log-time">
+                                    00:00:07
+                                </span>
+
+                                <span class="log-ok">
+                                    [OK]
+                                </span>
+
+                                Uptime Kuma listening on port 3001
+                            </p>
+
 
                         <p>
                             <span class="log-time">
-                                00:00:06
+                                00:00:08
                             </span>
 
                             <span class="log-info">
@@ -1049,7 +1080,7 @@
 
                         <p>
                             <span class="log-time">
-                                00:00:07
+                                00:00:09
                             </span>
 
                             <span class="log-info">
@@ -1058,6 +1089,18 @@
 
                             Portainer available at https://localhost:9443
                         </p>
+
+                            <p>
+                                <span class="log-time">
+                                    00:00:10
+                                </span>
+
+                                <span class="log-info">
+                                    [INFO]
+                                </span>
+
+                                Uptime Kuma available at http://localhost:3001
+                            </p>
 
 
                         <p class="terminal-input">
@@ -1089,7 +1132,7 @@
                 </span>
 
                 <span>
-                    LOCAL ACCESS ONLY // v0.2.0-dev
+                    LOCAL ACCESS ONLY // v0.4.0-dev
                 </span>
 
             </footer>
