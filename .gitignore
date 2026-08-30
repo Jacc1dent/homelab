@@ -15,3 +15,8 @@ Thumbs.db
 # Temporary files
 tmp/
 temp/
+
+# Local TLS certificates and private keys
+tls/*
+!tls/README.md
+!tls/server.cnf
