@@ -1561,3 +1561,55 @@ button {
     }
 
 }
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.metric-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 18px;
+}
+
+.metric-host {
+    display: block;
+    margin-bottom: 18px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.metric-values {
+    display: flex;
+    gap: 32px;
+}
+
+.metric-values > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.metric-label {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+}
+
+.metric-values strong {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.metric-values {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 32px;
+}
