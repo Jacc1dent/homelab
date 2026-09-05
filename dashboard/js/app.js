@@ -510,6 +510,174 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+// ============================================================
+// GLOBAL HOMELAB HEALTH STATE
+// ============================================================
+
+const homelabHealth = {
+    containers: null,
+    services: null,
+    targets: null,
+    machines: null,
+    resources: null
+};
+
+function logSystemStatusChange(
+    newStatus
+) {
+    if (
+        previousState.systemStatus === newStatus
+    ) {
+        return;
+    }
+
+
+    if (newStatus === "ONLINE") {
+
+        addSystemLog(
+            "ok",
+            "Homelab system status: ONLINE"
+        );
+
+    } else if (
+        newStatus === "DEGRADED"
+    ) {
+
+        addSystemLog(
+            "warn",
+            "Homelab system status: DEGRADED"
+        );
+
+    } else if (
+        newStatus === "DOWN"
+    ) {
+
+        addSystemLog(
+            "error",
+            "Homelab system status: DOWN"
+        );
+    }
+
+
+    previousState.systemStatus =
+        newStatus;
+}
+
+// ============================================================
+// OVERALL SYSTEM STATUS
+// ============================================================
+
+function updateSystemStatus() {
+    const dot =
+        document.getElementById("system-status-dot");
+
+    const text =
+        document.getElementById("system-status-text");
+
+    if (!dot || !text) {
+        return;
+    }
+
+
+    dot.classList.remove(
+        "online",
+        "offline",
+        "planned"
+    );
+
+    text.classList.remove(
+        "online-text",
+        "warning-text",
+        "offline-text"
+    );
+
+
+    const {
+        containers,
+        services,
+        targets,
+        machines,
+        resources
+    } = homelabHealth;
+
+
+    // Wait until all three APIs have reported in.
+    if (
+        containers === null ||
+        services === null ||
+        targets === null ||
+        machines === null ||
+        resources === null
+    ) {
+        dot.classList.add("planned");
+        text.classList.add("warning-text");
+
+        text.textContent = "CHECKING";
+
+        return;
+    }
+
+
+    // ========================================================
+    // DOWN
+    // ========================================================
+
+    const systemDown =
+        containers.running === 0 ||
+        services.running === 0 ||
+        targets.online === 0 ||
+        machines.online === 0;
+
+
+    if (systemDown) {
+        dot.classList.add("offline");
+        text.classList.add("offline-text");
+
+        text.textContent = "DOWN";
+
+        logSystemStatusChange("DOWN");
+
+        return;
+    }
+
+
+    // ========================================================
+    // DEGRADED
+    // ========================================================
+
+    const systemDegraded =
+        containers.running < containers.total ||
+        services.running < services.total ||
+        targets.online < targets.expected ||
+        machines.online < machines.total ||
+        resources.warning === true ||
+        resources.critical === true;
+
+
+    if (systemDegraded) {
+        dot.classList.add("planned");
+        text.classList.add("warning-text");
+
+        text.textContent = "DEGRADED";
+
+        logSystemStatusChange("DEGRADED");
+
+        return;
+    }
+
+
+    // ========================================================
+    // ONLINE
+    // ========================================================
+
+    dot.classList.add("online");
+    text.classList.add("online-text");
+
+    text.textContent = "ONLINE";
+}
+
+
+
 
     /* ========================================================
        VIEW ALL MACHINES
@@ -537,71 +705,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ========================================================
-       TERMINAL STARTUP MESSAGE
-    ======================================================== */
-
-    if (terminalOutput) {
-
-        const terminalInput =
-            terminalOutput.querySelector(
-                ".terminal-input"
-            );
-
-
-        if (terminalInput) {
-
-            const logLine =
-                document.createElement("p");
-
-
-            const time =
-                document.createElement("span");
-
-
-            time.className =
-                "log-time";
-
-
-            time.textContent =
-                formatClock(
-                    new Date()
-                );
-
-
-            const status =
-                document.createElement("span");
-
-
-            status.className =
-                "log-info";
-
-
-            status.textContent =
-                "[INFO]";
-
-
-            const message =
-                document.createTextNode(
-                    " UI controller initialized"
-                );
-
-
-            logLine.appendChild(time);
-
-            logLine.appendChild(status);
-
-            logLine.appendChild(message);
-
-
-            terminalOutput.insertBefore(
-                logLine,
-                terminalInput
-            );
-
-        }
-
-    }
+    
 
 
     /* ========================================================
@@ -645,3 +749,1196 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+
+// ============================================================
+// GLOBAL HOMELAB HEALTH STATE
+// ============================================================
+
+const homelabHealth = {
+    containers: null,
+    targets: null,
+    machines: null
+};
+
+
+// ============================================================
+// OVERALL SYSTEM STATUS
+// ============================================================
+
+function updateSystemStatus() {
+    const dot =
+        document.getElementById("system-status-dot");
+
+    const text =
+        document.getElementById("system-status-text");
+
+    if (!dot || !text) {
+        return;
+    }
+
+    dot.classList.remove(
+        "online",
+        "offline",
+        "planned"
+    );
+
+    text.classList.remove(
+        "online-text",
+        "warning-text",
+        "offline-text"
+    );
+
+
+    const {
+        containers,
+        services,
+        targets,
+        machines,
+        resources
+    } = homelabHealth;
+
+
+    // Still waiting for API data
+    if (
+        containers === null ||
+        targets === null ||
+        machines === null
+    ) {
+        dot.classList.add("planned");
+        text.classList.add("warning-text");
+
+        text.textContent = "CHECKING";
+
+        return;
+    }
+
+
+    // ========================================================
+    // DOWN
+    // ========================================================
+
+    const systemDown =
+        containers.running === 0 ||
+        targets.online === 0 ||
+        machines.online === 0;
+
+
+    if (systemDown) {
+        dot.classList.add("offline");
+        text.classList.add("offline-text");
+
+        text.textContent = "DOWN";
+
+        return;
+    }
+
+
+    // ========================================================
+    // DEGRADED
+    // ========================================================
+
+    const systemDegraded =
+        containers.running < containers.total ||
+        targets.online < targets.expected ||
+        machines.online < machines.total;
+
+
+    if (systemDegraded) {
+        dot.classList.add("planned");
+        text.classList.add("warning-text");
+
+        text.textContent = "DEGRADED";
+
+        return;
+    }
+
+
+    // ========================================================
+    // ONLINE
+    // ========================================================
+
+    dot.classList.add("online");
+    text.classList.add("online-text");
+
+    text.textContent = "ONLINE";
+}
+
+// ============================================================
+// LIVE CONTAINER STATUS
+// ============================================================
+
+async function updateContainerStatus() {
+    const countElement =
+        document.getElementById("container-count");
+
+    const statusElement =
+        document.getElementById("container-status");
+
+    if (!countElement || !statusElement) {
+        console.warn("Container status elements not found");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            "/api/containers",
+            {
+                cache: "no-store"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Container API returned ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        if (
+            previousState.containers === null
+        ) {
+
+            addSystemLog(
+                "ok",
+                `Docker containers online: ${data.running}/${data.total}`
+            );
+
+        } else if (
+            previousState.containers.running
+                !== data.running
+        ) {
+
+            if (
+                data.running === data.total
+            ) {
+
+                addSystemLog(
+                    "ok",
+                    `Docker container health restored: ${data.running}/${data.total} running`
+                );
+
+            } else {
+
+                addSystemLog(
+                    "warn",
+                    `Docker container health changed: ${data.running}/${data.total} running`
+                );
+            }
+        }
+
+
+        previousState.containers = {
+            running: data.running,
+            total: data.total
+        };
+
+        homelabHealth.containers = {
+            running: data.running,
+            total: data.total
+        };
+
+        updateSystemStatus();
+
+        countElement.textContent =
+            data.total;
+
+        statusElement.textContent =
+            `${data.running} / ${data.total} running`;
+
+        statusElement.classList.remove(
+            "online-text",
+            "warning-text",
+            "offline-text"
+        );
+
+        if (data.running === data.total) {
+            statusElement.classList.add(
+                "online-text"
+            );
+
+        } else if (data.running > 0) {
+            statusElement.classList.add(
+                "warning-text"
+            );
+
+        } else {
+            statusElement.classList.add(
+                "offline-text"
+            );
+        }
+
+    } catch (error) {
+        console.error(
+            "Failed to load container status:",
+            error
+        );
+
+        countElement.textContent =
+            "--";
+
+        statusElement.textContent =
+            "Container API unavailable";
+
+        statusElement.classList.remove(
+            "online-text",
+            "warning-text"
+        );
+
+        statusElement.classList.add(
+            "offline-text"
+        );
+
+        homelabHealth.containers = null;
+
+        updateSystemStatus();
+    }
+}
+
+// ============================================================
+// LIVE SERVICE STATUS
+// ============================================================
+
+function setServiceStatus(
+    card,
+    running
+) {
+    const dot =
+        card.querySelector(
+            ".service-status-dot"
+        );
+
+    const text =
+        card.querySelector(
+            ".service-status-text"
+        );
+
+
+    if (!dot || !text) {
+        return;
+    }
+
+
+    dot.classList.remove(
+        "online",
+        "offline",
+        "planned"
+    );
+
+    text.classList.remove(
+        "online-text",
+        "warning-text",
+        "offline-text"
+    );
+
+
+    if (running === true) {
+
+        dot.classList.add(
+            "online"
+        );
+
+        text.classList.add(
+            "online-text"
+        );
+
+        text.textContent =
+            "RUNNING";
+
+    } else if (running === false) {
+
+        dot.classList.add(
+            "offline"
+        );
+
+        text.classList.add(
+            "offline-text"
+        );
+
+        text.textContent =
+            "DOWN";
+
+    } else {
+
+        dot.classList.add(
+            "planned"
+        );
+
+        text.classList.add(
+            "warning-text"
+        );
+
+        text.textContent =
+            "UNKNOWN";
+    }
+}
+
+
+async function updateServices() {
+
+    const countElement =
+        document.getElementById(
+            "service-count"
+        );
+
+    const statusElement =
+        document.getElementById(
+            "service-status-summary"
+        );
+
+
+    if (!countElement || !statusElement) {
+        console.warn(
+            "Service overview elements not found"
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            "/api/services",
+            {
+                cache: "no-store"
+            }
+        );
+
+
+        if (!response.ok) {
+            throw new Error(
+                `Services API returned ${response.status}`
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+        if (
+            previousState.services === null
+        ) {
+
+            addSystemLog(
+                "ok",
+                `Homelab services available: ${data.running}/${data.total}`
+            );
+
+        } else if (
+            previousState.services.running
+                !== data.running
+        ) {
+
+            if (
+                data.running === data.total
+            ) {
+
+                addSystemLog(
+                    "ok",
+                    `Service health restored: ${data.running}/${data.total} running`
+                );
+
+            } else {
+
+                addSystemLog(
+                    "warn",
+                    `Service health changed: ${data.running}/${data.total} running`
+                );
+            }
+        }
+
+
+        previousState.services = {
+            running: data.running,
+            total: data.total
+        };
+
+
+        // ----------------------------------------------------
+        // Feed overall health
+        // ----------------------------------------------------
+
+        homelabHealth.services = {
+            running: data.running,
+            total: data.total
+        };
+
+        updateSystemStatus();
+
+
+        // ----------------------------------------------------
+        // Overview card
+        // ----------------------------------------------------
+
+        countElement.textContent =
+            data.total;
+
+        statusElement.textContent =
+            `${data.running} / ${data.total} currently running`;
+
+
+        statusElement.classList.remove(
+            "online-text",
+            "warning-text",
+            "offline-text"
+        );
+
+
+        if (data.running === data.total) {
+
+            statusElement.classList.add(
+                "online-text"
+            );
+
+        } else if (data.running > 0) {
+
+            statusElement.classList.add(
+                "warning-text"
+            );
+
+        } else {
+
+            statusElement.classList.add(
+                "offline-text"
+            );
+        }
+
+
+        // ----------------------------------------------------
+        // Individual service cards
+        // ----------------------------------------------------
+
+        for (
+            const [serviceName, running]
+            of Object.entries(data.services)
+        ) {
+
+            const card =
+                document.querySelector(
+                    `[data-service="${serviceName}"]`
+                );
+
+
+            if (!card) {
+                console.warn(
+                    `No service card found for ${serviceName}`
+                );
+
+                continue;
+            }
+
+
+            setServiceStatus(
+                card,
+                running
+            );
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load service status:",
+            error
+        );
+
+
+        countElement.textContent =
+            "--";
+
+        statusElement.textContent =
+            "Service API unavailable";
+
+
+        statusElement.classList.remove(
+            "online-text",
+            "warning-text"
+        );
+
+        statusElement.classList.add(
+            "offline-text"
+        );
+
+
+        homelabHealth.services =
+            null;
+
+        updateSystemStatus();
+    }
+}
+
+
+// ============================================================
+// FORMATTERS
+// ============================================================
+
+function formatPercent(value) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "--";
+    }
+
+    return `${Number(value).toFixed(1)}%`;
+}
+
+
+function formatUptime(seconds) {
+    if (
+        seconds === null ||
+        seconds === undefined
+    ) {
+        return "--";
+    }
+
+    const days =
+        Math.floor(seconds / 86400);
+
+    const hours =
+        Math.floor(
+            (seconds % 86400) / 3600
+        );
+
+    const minutes =
+        Math.floor(
+            (seconds % 3600) / 60
+        );
+
+    if (days > 0) {
+        return `${days}d ${hours}h`;
+    }
+
+    if (hours > 0) {
+        return `${hours}h ${minutes}m`;
+    }
+
+    return `${minutes}m`;
+}
+
+// ============================================================
+// METRIC SEVERITY
+// ============================================================
+
+function applyMetricSeverity(
+    element,
+    value,
+    warningThreshold,
+    criticalThreshold
+) {
+    if (!element) {
+        return;
+    }
+
+    // Remove any old severity colour first.
+    element.classList.remove(
+        "warning-text",
+        "offline-text"
+    );
+
+
+    // No data = leave the normal/default colour.
+    if (
+        value === null ||
+        value === undefined ||
+        Number.isNaN(Number(value))
+    ) {
+        return;
+    }
+
+
+    const numericValue = Number(value);
+
+
+    // Critical
+    if (numericValue >= criticalThreshold) {
+        element.classList.add(
+            "offline-text"
+        );
+
+        return;
+    }
+
+
+    // Warning
+    if (numericValue >= warningThreshold) {
+        element.classList.add(
+            "warning-text"
+        );
+    }
+}
+
+
+// ============================================================
+// MACHINE STATUS
+// ============================================================
+
+function setMachineStatus(dot, text, online) {
+    if (!dot || !text) {
+        return;
+    }
+
+    dot.classList.remove(
+        "online",
+        "offline",
+        "planned"
+    );
+
+    text.classList.remove(
+        "online-text",
+        "offline-text",
+        "planned-text"
+    );
+
+    if (online === true) {
+        dot.classList.add("online");
+        text.classList.add("online-text");
+        text.textContent = "ONLINE";
+
+    } else if (online === false) {
+        dot.classList.add("offline");
+        text.classList.add("offline-text");
+        text.textContent = "OFFLINE";
+
+    } else {
+        dot.classList.add("planned");
+        text.classList.add("planned-text");
+        text.textContent = "UNKNOWN";
+    }
+}
+
+
+// ============================================================
+// LIVE INFRASTRUCTURE METRICS
+// ============================================================
+
+async function updateMetrics() {
+    const gamingCpu =
+        document.getElementById("gaming-cpu");
+
+    const gamingRam =
+        document.getElementById("gaming-ram");
+
+    const gamingDisk =
+        document.getElementById("gaming-disk");
+
+    const gamingUptime =
+        document.getElementById("gaming-uptime");
+
+
+    const dnsCpu =
+        document.getElementById("dns-cpu");
+
+    const dnsRam =
+        document.getElementById("dns-ram");
+
+    const dnsDisk =
+        document.getElementById("dns-disk");
+
+    const dnsUptime =
+        document.getElementById("dns-uptime");
+
+
+    const targets =
+        document.getElementById("prometheus-targets");
+
+    const metricsStatus =
+        document.getElementById("metrics-status");
+
+
+    const gamingStatusDot =
+        document.getElementById("gaming-status-dot");
+
+    const gamingStatusText =
+        document.getElementById("gaming-status-text");
+
+    const dnsStatusDot =
+        document.getElementById("dns-status-dot");
+
+    const dnsStatusText =
+        document.getElementById("dns-status-text");
+
+    const hostStatusSummary =
+        document.getElementById("host-status-summary");
+
+
+    if (
+        !gamingCpu ||
+        !gamingRam ||
+        !gamingDisk ||
+        !gamingUptime ||
+        !dnsCpu ||
+        !dnsRam ||
+        !dnsDisk ||
+        !dnsUptime ||
+        !targets ||
+        !metricsStatus
+    ) {
+        console.error(
+            "One or more metric HTML elements are missing"
+        );
+
+        return;
+    }
+
+
+    try {
+        const response = await fetch("/api/metrics", {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                `Metrics API returned ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        if (
+            previousState.targets === null
+        ) {
+
+            addSystemLog(
+                "ok",
+                `Prometheus targets healthy: ${data.targets.online}/${data.targets.expected}`
+            );
+
+        } else if (
+            previousState.targets.online
+                !== data.targets.online
+        ) {
+
+            const level =
+                data.targets.online
+                    === data.targets.expected
+                    ? "ok"
+                    : "warn";
+
+
+            addSystemLog(
+                level,
+                `Prometheus target state changed: ${data.targets.online}/${data.targets.expected}`
+            );
+        }
+
+        // ----------------------------------------------------
+        // MACHINE ACTIVITY LOGGING
+        // ----------------------------------------------------
+
+        if (
+            previousState.gamingPc !== null &&
+            previousState.gamingPc !== data.gaming_pc.online
+        ) {
+
+            addSystemLog(
+                data.gaming_pc.online
+                    ? "ok"
+                    : "error",
+
+                `gaming-pc is ${
+                    data.gaming_pc.online
+                        ? "online"
+                        : "offline"
+                }`
+            );
+        }
+
+
+        if (
+            previousState.homelabDns !== null &&
+            previousState.homelabDns !== data.homelab_dns.online
+        ) {
+
+            addSystemLog(
+                data.homelab_dns.online
+                    ? "ok"
+                    : "error",
+
+                `homelab-dns is ${
+                    data.homelab_dns.online
+                        ? "online"
+                        : "offline"
+                }`
+            );
+        }
+
+
+        previousState.gamingPc =
+            data.gaming_pc.online;
+
+        previousState.homelabDns =
+            data.homelab_dns.online;
+
+
+        previousState.targets = {
+            online: data.targets.online,
+            expected: data.targets.expected
+        };
+
+        const resourceWarning =
+            data.gaming_pc.cpu_percent >= 70 ||
+            data.gaming_pc.ram_percent >= 70 ||
+            data.gaming_pc.disk_percent >= 80 ||
+            data.homelab_dns.cpu_percent >= 70 ||
+            data.homelab_dns.ram_percent >= 70 ||
+            data.homelab_dns.disk_percent >= 80;
+
+
+        const resourceCritical =
+            data.gaming_pc.cpu_percent >= 90 ||
+            data.gaming_pc.ram_percent >= 90 ||
+            data.gaming_pc.disk_percent >= 90 ||
+            data.homelab_dns.cpu_percent >= 90 ||
+            data.homelab_dns.ram_percent >= 90 ||
+            data.homelab_dns.disk_percent >= 90;
+
+
+        homelabHealth.resources = {
+            warning: resourceWarning,
+            critical: resourceCritical
+        };
+
+        // ----------------------------------------------------
+        // RESOURCE ACTIVITY LOGGING
+        // ----------------------------------------------------
+
+        if (
+            data.gaming_pc.disk_percent >= 90
+        ) {
+
+            if (
+                previousState.gamingDiskCritical !== true
+            ) {
+
+                addSystemLog(
+                    "error",
+                    `gaming-pc C: disk critical: ${data.gaming_pc.disk_percent}% used`
+                );
+            }
+
+            previousState.gamingDiskCritical = true;
+
+        } else {
+
+            if (
+                previousState.gamingDiskCritical === true
+            ) {
+
+                addSystemLog(
+                    "ok",
+                    "gaming-pc C: disk returned below critical threshold"
+                );
+            }
+
+            previousState.gamingDiskCritical = false;
+        }
+
+        updateSystemStatus();
+
+        homelabHealth.targets = {
+            online: data.targets.online,
+            expected: data.targets.expected
+        };
+
+        const machineStates = [
+            data.gaming_pc.online,
+            data.homelab_dns.online
+        ];
+
+        homelabHealth.machines = {
+            online: machineStates.filter(
+                state => state === true
+            ).length,
+
+            total: machineStates.length
+        };
+
+        updateSystemStatus();
+
+
+
+        // Gaming PC
+        gamingCpu.textContent =
+            formatPercent(data.gaming_pc.cpu_percent);
+
+        gamingRam.textContent =
+            formatPercent(data.gaming_pc.ram_percent);
+
+        gamingDisk.textContent =
+            formatPercent(data.gaming_pc.disk_percent);
+
+        gamingUptime.textContent =
+            formatUptime(data.gaming_pc.uptime_seconds);
+
+        // ----------------------------------------------------
+        // GAMING PC SEVERITY
+        // ----------------------------------------------------
+
+        applyMetricSeverity(
+            gamingCpu,
+            data.gaming_pc.cpu_percent,
+            70,
+            90
+        );
+
+        applyMetricSeverity(
+            gamingRam,
+            data.gaming_pc.ram_percent,
+            70,
+            90
+        );
+
+        applyMetricSeverity(
+            gamingDisk,
+            data.gaming_pc.disk_percent,
+            80,
+            90
+        );
+
+
+        // DNS server
+        dnsCpu.textContent =
+            formatPercent(data.homelab_dns.cpu_percent);
+
+        dnsRam.textContent =
+            formatPercent(data.homelab_dns.ram_percent);
+
+        dnsDisk.textContent =
+            formatPercent(data.homelab_dns.disk_percent);
+
+        dnsUptime.textContent =
+            formatUptime(data.homelab_dns.uptime_seconds);
+
+
+        // ----------------------------------------------------
+        // HOMELAB DNS SEVERITY
+        // ----------------------------------------------------
+
+        applyMetricSeverity(
+            dnsCpu,
+            data.homelab_dns.cpu_percent,
+            70,
+            90
+        );
+
+        applyMetricSeverity(
+            dnsRam,
+            data.homelab_dns.ram_percent,
+            70,
+            90
+        );
+
+        applyMetricSeverity(
+            dnsDisk,
+            data.homelab_dns.disk_percent,
+            80,
+            90
+        );
+
+
+        // Prometheus
+        targets.textContent =
+            `${data.targets.online} / ${data.targets.expected}`;
+
+
+        // Machine status
+        setMachineStatus(
+            gamingStatusDot,
+            gamingStatusText,
+            data.gaming_pc.online
+        );
+
+        setMachineStatus(
+            dnsStatusDot,
+            dnsStatusText,
+            data.homelab_dns.online
+        );
+
+
+        // Overview host summary
+        if (hostStatusSummary) {
+            const states = [
+                data.gaming_pc.online,
+                data.homelab_dns.online
+            ];
+
+            const onlineCount =
+                states.filter(
+                    value => value === true
+                ).length;
+
+            hostStatusSummary.textContent =
+                `${onlineCount} infrastructure nodes online / 1 planned`;
+        }
+
+
+        // Metrics status
+        metricsStatus.textContent = "LIVE";
+
+        metricsStatus.classList.remove(
+            "planned-text",
+            "offline-text"
+        );
+
+        metricsStatus.classList.add(
+            "online-text"
+        );
+
+    } catch (error) {
+        homelabHealth.targets = null;
+        homelabHealth.machines = null;
+
+        updateSystemStatus();
+    }
+}
+
+// ============================================================
+// LIVE SYSTEM ACTIVITY
+// ============================================================
+
+const previousState = {
+    containers: null,
+    services: null,
+    targets: null,
+    gamingPc: null,
+    homelabDns: null,
+    gamingDiskCritical: null,
+    systemStatus: null
+};
+
+
+function getLogTime() {
+    return new Date().toLocaleTimeString(
+        [],
+        {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }
+    );
+}
+
+
+function addSystemLog(
+    level,
+    message
+) {
+    const log =
+        document.getElementById("system-log");
+
+    if (!log) {
+        return;
+    }
+
+
+    const line =
+        document.createElement("p");
+
+
+    const time =
+        document.createElement("span");
+
+    time.className =
+        "log-time";
+
+    time.textContent =
+        getLogTime();
+
+
+    const status =
+        document.createElement("span");
+
+
+    if (level === "ok") {
+        status.className =
+            "log-ok";
+
+        status.textContent =
+            "[OK]";
+
+    } else if (level === "warn") {
+        status.className =
+            "log-info";
+
+        status.textContent =
+            "[WARN]";
+
+    } else if (level === "error") {
+        status.className =
+            "log-error";
+
+        status.textContent =
+            "[ERROR]";
+
+    } else {
+        status.className =
+            "log-info";
+
+        status.textContent =
+            "[INFO]";
+    }
+
+
+    line.append(
+        time,
+        document.createTextNode(" "),
+        status,
+        document.createTextNode(
+            ` ${message}`
+        )
+    );
+
+
+    log.appendChild(line);
+
+
+    // Keep the terminal from growing forever.
+    while (
+        log.children.length > 30
+    ) {
+        log.removeChild(
+            log.firstElementChild
+        );
+    }
+}
+
+// ============================================================
+// INITIAL LOAD
+// ============================================================
+
+
+async function initializeLiveDashboard() {
+
+    addSystemLog(
+        "info",
+        "Homelab dashboard live monitoring initialized"
+    );
+
+    await updateContainerStatus();
+    await updateServices();
+    await updateMetrics();
+}
+
+initializeLiveDashboard();
+
+
+// ============================================================
+// POLLING
+// ============================================================
+
+setInterval(
+    updateContainerStatus,
+    30000
+);
+
+setInterval(
+    updateMetrics,
+    15000
+);
+
+setInterval(
+    updateServices,
+    15000
+);
+

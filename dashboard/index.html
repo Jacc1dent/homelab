@@ -171,7 +171,7 @@
                 </div>
 
                 <p class="version">
-                    v0.2.0-dev
+                    v0.10.0-dev
                 </p>
 
             </div>
@@ -212,14 +212,20 @@
 
                 <div class="system-state">
 
-                    <span class="status-dot online"></span>
+                    <span
+                        class="status-dot online"
+                        id="system-status-dot"
+                    ></span>
 
                     <div>
                         <span class="system-state-label">
                             SYSTEM STATUS
                         </span>
 
-                        <strong>
+                        <strong
+                            class="online-text"
+                            id="system-status-text"
+                        >
                             ONLINE
                         </strong>
                     </div>
@@ -275,8 +281,8 @@
                             7
                         </p>
 
-                        <p class="stat-description">
-                            2 infrastructure nodes online / 1 planned
+                        <p class="stat-description" id="host-status-summary">
+                            Checking infrastructure nodes...
                         </p>
 
                     </article>
@@ -297,12 +303,18 @@
 
                         </div>
 
-                        <p class="stat-value">
-                            6
+                        <p
+                            class="stat-value"
+                            id="service-count"
+                        >
+                            --
                         </p>
 
-                        <p class="stat-description">
-                            6 currently running
+                        <p
+                            class="stat-description"
+                            id="service-status-summary"
+                        >
+                            Loading service status...
                         </p>
 
                     </article>
@@ -323,12 +335,12 @@
 
                         </div>
 
-                        <p class="stat-value">
-                            5
+                        <p class="stat-value" id="container-count">
+                            --
                         </p>
 
-                        <p class="stat-description">
-                            Docker containers online
+                        <p class="stat-description" id="container-status">
+                            Loading container status...
                         </p>
 
                     </article>
@@ -362,6 +374,93 @@
 
                 </div>
 
+            </section>
+
+            <section class="panel" id="live-metrics">
+                <div class="panel-header">
+                    <div>
+                        <span class="terminal-label">&gt; metrics.live</span>
+                        <h3>Live Infrastructure Metrics</h3>
+                    </div>
+
+                    <span
+                        class="status-text planned-text"
+                        id="metrics-status"
+                    >
+                        CONNECTING
+                    </span>
+                </div>
+
+                <div class="metrics-grid">
+
+                    <article class="metric-card">
+                        <span class="metric-host">gaming-pc</span>
+
+                        <div class="metric-values">
+
+                            <div>
+                                <span class="metric-label">CPU</span>
+                                <strong id="gaming-cpu">--</strong>
+                            </div>
+
+                            <div>
+                                <span class="metric-label">RAM</span>
+                                <strong id="gaming-ram">--</strong>
+                            </div>
+
+                            <div>
+                                <span class="metric-label">DISK</span>
+                                <strong id="gaming-disk">--</strong>
+                            </div>
+
+                            <div>
+                                <span class="metric-label">UPTIME</span>
+                                <strong id="gaming-uptime">--</strong>
+                            </div>
+
+                        </div>
+                    </article>
+
+                    <article class="metric-card">
+                        <span class="metric-host">homelab-dns</span>
+
+                        <div class="metric-values">
+
+                            <div>
+                                <span class="metric-label">CPU</span>
+                                <strong id="dns-cpu">--</strong>
+                            </div>
+
+                            <div>
+                                <span class="metric-label">RAM</span>
+                                <strong id="dns-ram">--</strong>
+                            </div>
+
+                            <div>
+                                <span class="metric-label">DISK</span>
+                                <strong id="dns-disk">--</strong>
+                            </div>
+
+                            <div>
+                                <span class="metric-label">UPTIME</span>
+                                <strong id="dns-uptime">--</strong>
+                            </div>
+
+                        </div>
+                    </article>
+
+                    <article class="metric-card">
+                        <span class="metric-host">prometheus</span>
+
+                        <div class="metric-values">
+                            <div>
+                                <span class="metric-label">TARGETS</span>
+                                <strong id="prometheus-targets">-- / --</strong>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
             </section>
 
 
@@ -413,7 +512,10 @@
 
                         <div class="machine-name">
 
-                            <span class="status-dot online"></span>
+                            <span
+                                class="status-dot online"
+                                id="gaming-status-dot"
+                            ></span>
 
                             <div>
                                 <strong>gaming-pc</strong>
@@ -430,7 +532,10 @@
                             Windows / WSL2
                         </span>
 
-                        <span class="status-text online-text">
+                        <span
+                            class="status-text online-text"
+                            id="gaming-status-text"
+                        >
                             ONLINE
                         </span>
 
@@ -440,7 +545,10 @@
 
                         <div class="machine-name">
 
-                            <span class="status-dot online"></span>
+                            <span
+                                class="status-dot online"
+                                id="dns-status-dot"
+                            ></span>
 
                             <div>
                                 <strong>homelab-dns</strong>
@@ -457,7 +565,10 @@
                             Debian / Hyper-V
                         </span>
 
-                        <span class="status-text online-text">
+                        <span
+                            class="status-text online-text"
+                            id="dns-status-text"
+                        >
                             ONLINE
                         </span>
 
@@ -643,7 +754,7 @@
                 <div class="service-grid">
 
 
-                    <article class="service-card">
+                    <article class="service-card" data-service="nginx">
 
                         <div class="service-header">
 
@@ -651,7 +762,7 @@
                                 NX
                             </div>
 
-                            <span class="status-dot online"></span>
+                            <span class="status-dot online service-status-dot"></span>
 
                         </div>
 
@@ -669,7 +780,7 @@
                                 :8080
                             </span>
 
-                            <span class="online-text">
+                            <span class="online-text service-status-text">
                                 RUNNING
                             </span>
 
@@ -679,7 +790,7 @@
 
 
 
-                    <article class="service-card">
+                    <article class="service-card" data-service="portainer">
 
                         <div class="service-header">
 
@@ -687,7 +798,7 @@
                                 PT
                             </div>
 
-                            <span class="status-dot online"></span>
+                            <span class="status-dot online service-status-dot"></span>
 
                         </div>
 
@@ -711,7 +822,7 @@
                                 :9443
                             </span>
 
-                            <span class="online-text">
+                            <span class="online-text service-status-text">
                                 RUNNING
                             </span>
 
@@ -721,7 +832,7 @@
 
 
 
-                    <article class="service-card">
+                    <article class="service-card" data-service="uptime-kuma">
 
                         <div class="service-header">
 
@@ -729,7 +840,7 @@
                                 UK
                             </div>
 
-                            <span class="status-dot online"></span>
+                            <span class="status-dot online service-status-dot"></span>
 
                         </div>
 
@@ -753,7 +864,7 @@
                                 :3001
                             </span>
 
-                            <span class="online-text">
+                            <span class="online-text service-status-text">
                                 RUNNING
                             </span>
 
@@ -761,7 +872,7 @@
 
                     </article>
 
-                    <article class="service-card">
+                    <article class="service-card" data-service="adguard">
 
                         <div class="service-header">
 
@@ -769,7 +880,7 @@
                                 AG
                             </div>
 
-                            <span class="status-dot online"></span>
+                            <span class="status-dot online service-status-dot"></span>
 
                         </div>
 
@@ -795,7 +906,7 @@
                                 :53 DNS
                             </span>
 
-                            <span class="online-text">
+                            <span class="online-text service-status-text">
                                 RUNNING
                             </span>
 
@@ -803,11 +914,11 @@
 
                     </article>
 
-                    <article class="service-card">
+                    <article class="service-card" data-service="grafana">
 
                         <div class="service-header">
                             <div class="service-icon">GF</div>
-                            <span class="status-dot online"></span>
+                            <span class="status-dot online service-status-dot"></span>
                         </div>
 
                         <h4>
@@ -824,16 +935,16 @@
 
                         <div class="service-footer">
                             <span>:3000 INTERNAL</span>
-                            <span class="online-text">RUNNING</span>
+                            <span class="online-text service-status-text">RUNNING</span>
                         </div>
 
                     </article>
 
-                    <article class="service-card">
+                    <article class="service-card" data-service="prometheus">
 
                         <div class="service-header">
                             <div class="service-icon">PM</div>
-                            <span class="status-dot online"></span>
+                            <span class="status-dot online service-status-dot"></span>
                         </div>
 
                         <h4>
@@ -850,7 +961,7 @@
 
                         <div class="service-footer">
                             <span>:9090 INTERNAL</span>
-                            <span class="online-text">RUNNING</span>
+                            <span class="online-text service-status-text">RUNNING</span>
                         </div>
 
                     </article>
@@ -936,7 +1047,7 @@
                         <div class="project-footer">
 
                             <span>
-                                v0.5.0-dev
+                                v0.10.0-dev
                             </span>
 
                             <a href="#">
@@ -1060,141 +1171,14 @@
 
                     <div class="terminal-output">
 
-                        <p>
-                            <span class="log-time">00:00:01</span>
-                            <span class="log-info">[INFO]</span>
-                            Homelab control plane initializing...
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:02</span>
-                            <span class="log-ok">[OK]</span>
-                            Docker engine connected
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:03</span>
-                            <span class="log-ok">[OK]</span>
-                            Nginx reverse proxy online on :80
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:04</span>
-                            <span class="log-ok">[OK]</span>
-                            TLS listener active on :443
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:05</span>
-                            <span class="log-ok">[OK]</span>
-                            Homelab server certificate loaded
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:06</span>
-                            <span class="log-ok">[OK]</span>
-                            HTTP to HTTPS redirects enabled
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:07</span>
-                            <span class="log-info">[INFO]</span>
-                            Internal PKI trust established
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:08</span>
-                            <span class="log-ok">[OK]</span>
-                            Portainer container management online
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:09</span>
-                            <span class="log-ok">[OK]</span>
-                            Uptime Kuma monitoring online
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:10</span>
-                            <span class="log-ok">[OK]</span>
-                            homelab-dns reachable at 192.168.1.62
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:11</span>
-                            <span class="log-ok">[OK]</span>
-                            AdGuard Home DNS listening on :53
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:12</span>
-                            <span class="log-info">[INFO]</span>
-                            home.arpa internal DNS namespace available
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:13</span>
-                            <span class="log-ok">[OK]</span>
-                            Prometheus metrics engine online
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:14</span>
-                            <span class="log-ok">[OK]</span>
-                            homelab-dns Node Exporter responding on :9100
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:15</span>
-                            <span class="log-ok">[OK]</span>
-                            gaming-pc Windows Exporter responding on :9182
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:16</span>
-                            <span class="log-ok">[OK]</span>
-                            Prometheus scrape targets healthy: 3/3
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:17</span>
-                            <span class="log-ok">[OK]</span>
-                            Grafana observability dashboard online
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:18</span>
-                            <span class="log-info">[INFO]</span>
-                            5 Docker containers running
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:19</span>
-                            <span class="log-info">[INFO]</span>
-                            6 homelab services available
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:20</span>
-                            <span class="log-ok">[OK]</span>
-                            Observability stack initialized
-                        </p>
-
-                        <p>
-                            <span class="log-time">00:00:17</span>
-                            <span class="log-info">[INFO]</span>
-                            Homelab dashboard v0.8 ready
-                        </p>
-
+                        <div id="system-log"></div>
 
                         <p class="terminal-input">
-
                             <span class="terminal-prompt">
                                 homelab@dashboard:~$
                             </span>
 
                             <span class="terminal-cursor"></span>
-
                         </p>
 
                     </div>
@@ -1216,7 +1200,7 @@
                 </span>
 
                 <span>
-                    LOCAL ACCESS ONLY // v0.5.0-dev
+                    LOCAL ACCESS ONLY // v0.10.0-dev
                 </span>
 
             </footer>
