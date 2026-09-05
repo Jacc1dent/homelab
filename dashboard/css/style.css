@@ -1613,3 +1613,7 @@ button {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px 32px;
 }
+
+.log-error {
+    color: var(--red);
+}

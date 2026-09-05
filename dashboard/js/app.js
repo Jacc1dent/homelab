@@ -522,6 +522,46 @@ const homelabHealth = {
     resources: null
 };
 
+function logSystemStatusChange(
+    newStatus
+) {
+    if (
+        previousState.systemStatus === newStatus
+    ) {
+        return;
+    }
+
+
+    if (newStatus === "ONLINE") {
+
+        addSystemLog(
+            "ok",
+            "Homelab system status: ONLINE"
+        );
+
+    } else if (
+        newStatus === "DEGRADED"
+    ) {
+
+        addSystemLog(
+            "warn",
+            "Homelab system status: DEGRADED"
+        );
+
+    } else if (
+        newStatus === "DOWN"
+    ) {
+
+        addSystemLog(
+            "error",
+            "Homelab system status: DOWN"
+        );
+    }
+
+
+    previousState.systemStatus =
+        newStatus;
+}
 
 // ============================================================
 // OVERALL SYSTEM STATUS
@@ -595,6 +635,8 @@ function updateSystemStatus() {
 
         text.textContent = "DOWN";
 
+        logSystemStatusChange("DOWN");
+
         return;
     }
 
@@ -617,6 +659,8 @@ function updateSystemStatus() {
         text.classList.add("warning-text");
 
         text.textContent = "DEGRADED";
+
+        logSystemStatusChange("DEGRADED");
 
         return;
     }
@@ -661,71 +705,7 @@ function updateSystemStatus() {
     }
 
 
-    /* ========================================================
-       TERMINAL STARTUP MESSAGE
-    ======================================================== */
-
-    if (terminalOutput) {
-
-        const terminalInput =
-            terminalOutput.querySelector(
-                ".terminal-input"
-            );
-
-
-        if (terminalInput) {
-
-            const logLine =
-                document.createElement("p");
-
-
-            const time =
-                document.createElement("span");
-
-
-            time.className =
-                "log-time";
-
-
-            time.textContent =
-                formatClock(
-                    new Date()
-                );
-
-
-            const status =
-                document.createElement("span");
-
-
-            status.className =
-                "log-info";
-
-
-            status.textContent =
-                "[INFO]";
-
-
-            const message =
-                document.createTextNode(
-                    " UI controller initialized"
-                );
-
-
-            logLine.appendChild(time);
-
-            logLine.appendChild(status);
-
-            logLine.appendChild(message);
-
-
-            terminalOutput.insertBefore(
-                logLine,
-                terminalInput
-            );
-
-        }
-
-    }
+    
 
 
     /* ========================================================
@@ -915,6 +895,44 @@ async function updateContainerStatus() {
 
         const data = await response.json();
 
+        if (
+            previousState.containers === null
+        ) {
+
+            addSystemLog(
+                "ok",
+                `Docker containers online: ${data.running}/${data.total}`
+            );
+
+        } else if (
+            previousState.containers.running
+                !== data.running
+        ) {
+
+            if (
+                data.running === data.total
+            ) {
+
+                addSystemLog(
+                    "ok",
+                    `Docker container health restored: ${data.running}/${data.total} running`
+                );
+
+            } else {
+
+                addSystemLog(
+                    "warn",
+                    `Docker container health changed: ${data.running}/${data.total} running`
+                );
+            }
+        }
+
+
+        previousState.containers = {
+            running: data.running,
+            total: data.total
+        };
+
         homelabHealth.containers = {
             running: data.running,
             total: data.total
@@ -1097,6 +1115,44 @@ async function updateServices() {
 
         const data =
             await response.json();
+
+        if (
+            previousState.services === null
+        ) {
+
+            addSystemLog(
+                "ok",
+                `Homelab services available: ${data.running}/${data.total}`
+            );
+
+        } else if (
+            previousState.services.running
+                !== data.running
+        ) {
+
+            if (
+                data.running === data.total
+            ) {
+
+                addSystemLog(
+                    "ok",
+                    `Service health restored: ${data.running}/${data.total} running`
+                );
+
+            } else {
+
+                addSystemLog(
+                    "warn",
+                    `Service health changed: ${data.running}/${data.total} running`
+                );
+            }
+        }
+
+
+        previousState.services = {
+            running: data.running,
+            total: data.total
+        };
 
 
         // ----------------------------------------------------
@@ -1439,6 +1495,87 @@ async function updateMetrics() {
 
         const data = await response.json();
 
+        if (
+            previousState.targets === null
+        ) {
+
+            addSystemLog(
+                "ok",
+                `Prometheus targets healthy: ${data.targets.online}/${data.targets.expected}`
+            );
+
+        } else if (
+            previousState.targets.online
+                !== data.targets.online
+        ) {
+
+            const level =
+                data.targets.online
+                    === data.targets.expected
+                    ? "ok"
+                    : "warn";
+
+
+            addSystemLog(
+                level,
+                `Prometheus target state changed: ${data.targets.online}/${data.targets.expected}`
+            );
+        }
+
+        // ----------------------------------------------------
+        // MACHINE ACTIVITY LOGGING
+        // ----------------------------------------------------
+
+        if (
+            previousState.gamingPc !== null &&
+            previousState.gamingPc !== data.gaming_pc.online
+        ) {
+
+            addSystemLog(
+                data.gaming_pc.online
+                    ? "ok"
+                    : "error",
+
+                `gaming-pc is ${
+                    data.gaming_pc.online
+                        ? "online"
+                        : "offline"
+                }`
+            );
+        }
+
+
+        if (
+            previousState.homelabDns !== null &&
+            previousState.homelabDns !== data.homelab_dns.online
+        ) {
+
+            addSystemLog(
+                data.homelab_dns.online
+                    ? "ok"
+                    : "error",
+
+                `homelab-dns is ${
+                    data.homelab_dns.online
+                        ? "online"
+                        : "offline"
+                }`
+            );
+        }
+
+
+        previousState.gamingPc =
+            data.gaming_pc.online;
+
+        previousState.homelabDns =
+            data.homelab_dns.online;
+
+
+        previousState.targets = {
+            online: data.targets.online,
+            expected: data.targets.expected
+        };
+
         const resourceWarning =
             data.gaming_pc.cpu_percent >= 70 ||
             data.gaming_pc.ram_percent >= 70 ||
@@ -1461,6 +1598,41 @@ async function updateMetrics() {
             warning: resourceWarning,
             critical: resourceCritical
         };
+
+        // ----------------------------------------------------
+        // RESOURCE ACTIVITY LOGGING
+        // ----------------------------------------------------
+
+        if (
+            data.gaming_pc.disk_percent >= 90
+        ) {
+
+            if (
+                previousState.gamingDiskCritical !== true
+            ) {
+
+                addSystemLog(
+                    "error",
+                    `gaming-pc C: disk critical: ${data.gaming_pc.disk_percent}% used`
+                );
+            }
+
+            previousState.gamingDiskCritical = true;
+
+        } else {
+
+            if (
+                previousState.gamingDiskCritical === true
+            ) {
+
+                addSystemLog(
+                    "ok",
+                    "gaming-pc C: disk returned below critical threshold"
+                );
+            }
+
+            previousState.gamingDiskCritical = false;
+        }
 
         updateSystemStatus();
 
@@ -1621,14 +1793,134 @@ async function updateMetrics() {
     }
 }
 
+// ============================================================
+// LIVE SYSTEM ACTIVITY
+// ============================================================
+
+const previousState = {
+    containers: null,
+    services: null,
+    targets: null,
+    gamingPc: null,
+    homelabDns: null,
+    gamingDiskCritical: null,
+    systemStatus: null
+};
+
+
+function getLogTime() {
+    return new Date().toLocaleTimeString(
+        [],
+        {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }
+    );
+}
+
+
+function addSystemLog(
+    level,
+    message
+) {
+    const log =
+        document.getElementById("system-log");
+
+    if (!log) {
+        return;
+    }
+
+
+    const line =
+        document.createElement("p");
+
+
+    const time =
+        document.createElement("span");
+
+    time.className =
+        "log-time";
+
+    time.textContent =
+        getLogTime();
+
+
+    const status =
+        document.createElement("span");
+
+
+    if (level === "ok") {
+        status.className =
+            "log-ok";
+
+        status.textContent =
+            "[OK]";
+
+    } else if (level === "warn") {
+        status.className =
+            "log-info";
+
+        status.textContent =
+            "[WARN]";
+
+    } else if (level === "error") {
+        status.className =
+            "log-error";
+
+        status.textContent =
+            "[ERROR]";
+
+    } else {
+        status.className =
+            "log-info";
+
+        status.textContent =
+            "[INFO]";
+    }
+
+
+    line.append(
+        time,
+        document.createTextNode(" "),
+        status,
+        document.createTextNode(
+            ` ${message}`
+        )
+    );
+
+
+    log.appendChild(line);
+
+
+    // Keep the terminal from growing forever.
+    while (
+        log.children.length > 30
+    ) {
+        log.removeChild(
+            log.firstElementChild
+        );
+    }
+}
 
 // ============================================================
 // INITIAL LOAD
 // ============================================================
 
-updateContainerStatus();
-updateMetrics();
-updateServices();
+
+async function initializeLiveDashboard() {
+
+    addSystemLog(
+        "info",
+        "Homelab dashboard live monitoring initialized"
+    );
+
+    await updateContainerStatus();
+    await updateServices();
+    await updateMetrics();
+}
+
+initializeLiveDashboard();
 
 
 // ============================================================
